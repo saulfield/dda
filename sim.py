@@ -93,12 +93,14 @@ axes.set_ylabel('Lateral position in m')
 
 # %%
 
+# approximating e ~= 2.71828...
 # y'(t) = f(y(t))
 # y'(t) = y(t)
 
 def solve(f, y0):
-    dt = 0.001
-    num_steps = 4000
+    # dt = 0.001
+    dt = 0.002
+    num_steps = 600
 
     t  = np.zeros(num_steps + 1)
     y  = np.zeros(num_steps + 1)
@@ -119,7 +121,7 @@ def solve(f, y0):
 
 t, y, dy, euler = solve(lambda y: y, 1.0)
 
-print(y[1000])
+print(y[500])
 
 plt.plot(t, y)
 plt.plot(t, euler)
