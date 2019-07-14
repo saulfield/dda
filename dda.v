@@ -93,8 +93,8 @@ endmodule
 
 // forward euler
 module integral(input  [31:0] y,
-                  input  [31:0] dy,
-                  output [31:0] y_next);
+                input  [31:0] dy,
+                output [31:0] y_next);
   assign y_next = y + (dy >>> 9);
 endmodule
 
