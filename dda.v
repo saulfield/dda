@@ -1,8 +1,6 @@
 `timescale 1us/1ns
 
-// ==========================================================================
-// Testbench
-// ==========================================================================
+// Testbench ------------------------------------------------
 
 module dda_testbench();
   reg  clk, reset;
@@ -26,7 +24,6 @@ module dda_testbench();
   initial begin
     $dumpfile("dda.vcd");
     $dumpvars(0, dda_testbench);
-    // $monitor("mem[87] = %d", dut.datapath.dmem.mem[87]);
 
     reset <= 1;
     y0    <= 1 <<< 16;  // 1.0 in Q16.16
@@ -42,21 +39,11 @@ module dda_testbench();
     $display("y = %b", y);
     $display("y = %d", y/65536);
 
-    // begin
-    //   if(dut.datapath.dmem.mem[87] === 21) begin
-    //     $display("Simulation succeeded");
-    //   end
-    //   else begin
-    //     $display("Simulation failed");
-    //   end
-    // end
     $finish;
   end
 endmodule
 
-// ==========================================================================
-// Top
-// ==========================================================================
+// Top ------------------------------------------------------
 
 module dda(input         clk,
            input         reset,
@@ -78,7 +65,8 @@ module dda(input         clk,
       dy <= 0;
     end
     else begin
-      t  <= t + (1 <<< 7);  // dt is 2e-9, so in Q16.16 this is 1 << (16-9)
+      // dt is 2e-9, so in Q16.16 this is 1 << (16-9)
+      t  <= t + (1 <<< 7);
       y  <= y_next;
       dy <= dy_next;
     end
@@ -98,7 +86,7 @@ module integral(input  [31:0] y,
   assign y_next = y + (dy >>> 9);
 endmodule
 
-// Multiplies 2 Qn.m fixed point numbers
+// multiplies two signed Qn.m fixed point numbers
 module signed_mult #(
   parameter n = 16,
   parameter m = 16
